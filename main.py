@@ -8,8 +8,8 @@ Created on Fri Nov  6 21:40:33 2020
 import streamlit as st
 import numpy as np
 import pandas as pd
-
-
+ 
+from sklearn.preprocessing import StandardScaler
 
 class Main:
     
@@ -49,23 +49,52 @@ def output_col(data):
     y = data.iloc[:,-1]
     return y
 
+
+def missing_data(training_data):
+     
+    training_data = training_data.fillna(training_data.mean())
+    
+    return training_data     
+#    if st.button("Median"):
+#        training_data = training_data.fillna(training_data.median())
+#        st.write(training_data)
+#        return training_data
+#    if st.button("Mode"):
+#        training_data = training_data.fillna(training_data.mode())
+#        st.write(training_data)
+#        return training_data 
+#        
+
 def encoding(training_data):
-     
-     
+    
+#    for i in len(training_data): 
+#        training_data['ID'] = training_data['ID'].replace()
+    training_data=training_data.drop(['ID'],axis =1)
     st.write(training_data.describe())
     st.write(training_data.select_dtypes(include = 'object'))
 #    data.select_dtypes(include = 'object')
     
     arr = training_data.select_dtypes(include = 'object')
     cols = arr.columns
-    print(cols[0])
-    for col in cols:
-        training_data = pd.get_dummies(training_data, columns=[col]) 
-    st.write(training_data) 
-        
-  
+    print(cols) 
+    for i in range(len(cols)):
+#        training_data = pd.get_dummies(training_data, columns=[col]) 
+#        print(training_data[col].value_counts())
+#        print(training_data[col].isna().sum())
+        print(cols[i])
+        training_data = pd.get_dummies(training_data, columns=[cols[i]]) 
+#    print(training_data['Outlet_Size'].isna().sum())
     
-
+     
+    return training_data
+        
+ 
+def normalisation(training_data):
+        
+#    sc_X = StandardScaler()
+    st.write(training_data)
+#    training_data = sc_X.fit_transform(training_data)
+    return training_data
 #g_data = []
      
  
@@ -82,14 +111,30 @@ class Regression:
             y = output_col(data)
             st.write(y)
         
-        
-        if st.button('Encoding the data'):
-#            data = load_data(file)
-            encoding(training_data)
-            st.write("insdie preprocessed data")
     
+        st.subheader('Imputation')
+        st.text('Fill the missing data using one of the following options')
+        if st.button('Mean'):
+             training_data = missing_data(training_data)
+             st.write(training_data)
+        if st.button('Median'):
+             training_data = missing_data(training_data)
+             st.write(training_data)
+        if st.button('Mode'):
+             training_data = missing_data(training_data)
+             st.write(training_data)
+             
+        st.subheader('Encoding of the data')
+        st.text('Convert categorical data into numerical data')
+        if st.button('Convert'):
+            training_data = encoding(training_data)
+            st.write(training_data)
         
-        
+        st.subheader('Normalize the data')
+        if st.button('Normalize'):
+            training_data = normalisation(training_data)
+#            st.write(training_data)
+             
 
 class Classfication:
     def __init__(self):
