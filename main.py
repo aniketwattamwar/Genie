@@ -30,8 +30,8 @@ class Main:
 
     def welcome(self):
             
-        st.title('Genie- A webapp to download predictions')
-        st.header('You can upload datasets and choose your algorithms and obtain a predicted file in minutes')
+        st.title('Genie - A webapp to download models & predictions')
+        st.header('You can upload datasets and choose your algorithms and obtain a model and a predicted file in minutes')
     
 
 
@@ -89,44 +89,104 @@ def normalisation(training_data):
     return training_data
 
 #g_data = []
-     
- 
+
+#
+#file2 = st.file_uploader('Upload Dataset')
+#if file2 is not None:
+#    data = load_data(file2)
+#    st.write('Training Data')
+#    training_data = train_data(data)
+#    st.write(training_data)
+#    st.write('Output Column')
+#    y = output_col(data)
+#    st.write(y)
+#
+#
+#if st.checkbox('Mean'):
+#    training_data = missing_data(training_data)
+#            
+#    st.write(training_data)
+#         
+#
+#if st.checkbox('Encode'):
+#    training_data = encoding(training_data)
+#    st.write(training_data)
+
+from sklearn.linear_model import LinearRegression
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
+import pickle
+
+def models(model,training_data,y):
+    
+    if model == 'Linear Regression':
+        regressor = LinearRegression()
+        regressor.fit(training_data, y)
+        return regressor
+    elif model == 'Decision Trees':
+        regressor = DecisionTreeRegressor()
+        regressor.fit(training_data, y)
+    elif model == 'Random Forest':
+        regressor = RandomForestRegressor()
+        regressor.fit(training_data, y)
+    
+
+
+
 class Regression:
     
+    def __init__(self):
+        file = st.file_uploader('Upload Dataset')
+        if file is not None:
+            data = load_data(file)
+            st.write('Training Data')
+            training_data = train_data(data)
+            st.write(training_data)
+            st.write('Output Column')
+            y = output_col(data)
+            st.write(y)
+            
+        st.subheader('Imputation')
+        st.text('Fill the missing data using one of the following options')
+        if st.checkbox('Mean'):
+            training_data = missing_data(training_data)
+            st.write(training_data)
     
-    file = st.file_uploader('Upload Dataset')
-    if file is not None:
-        data = load_data(file)
-        st.write('Training Data')
-        training_data = train_data(data)
-        st.write(training_data)
-        st.write('Output Column')
-        y = output_col(data)
-        st.write(y)
-        
-    st.subheader('Imputation')
-    st.text('Fill the missing data using one of the following options')
-    training_data = missing_data(training_data)
-    if st.button('Mean'):
-        st.write(training_data)
-
-
-    st.subheader('Encoding of the data')
-    st.text('Convert categorical data into numerical data')
-#    st.write(training_data)
-    training_data = encoding(training_data)
-    if st.button('Encode'):
-        st.write(training_data)
- 
- 
-        
-    st.subheader('Normalize the data')
-    training_data = normalisation(training_data)
-    if st.button('Normalize'):
-        st.write(training_data)
-        
     
- 
+        st.subheader('Encoding of the data')
+        st.text('Convert categorical data into numerical data')
+        tech = st.radio("dsfdas",
+        ('Encode', 'Drama', 'Documentary'))
+        if tech == 'Encode':
+            
+            training_data = encoding(training_data)
+            st.write(training_data)
+             
+       
+        st.subheader('Normalize the data')
+        
+        if st.checkbox('Normalize'):
+            training_data = normalisation(training_data)
+            st.write(training_data)
+            
+        st.subheader('Choose one of the algorithms to train your data')
+        algo = st.radio("",
+                        ('Disabled','Linear Regression','Decision Trees','Random forest'))
+        if algo == 'Linear Regression':
+            regressor = models('Linear Regression',training_data,y)
+            st.write('Model Trained Successfully')
+            if st.button('Download model(pickle)'):
+                pickle.dump(regressor, open('model.sav', 'wb'))
+                        
+        if algo == 'Decision Trees':
+            regressor = models('Decision Trees',training_data,y)
+            st.write('Model Trained Successfully')
+        if algo == 'Random forest':
+            regressor = models('Random forest',training_data,y)
+            st.write('Model Trained Successfully')
+        
+        
+        
 class Classfication:
     def __init__(self):
         file = st.file_uploader('Upload Dataset')
