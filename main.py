@@ -8,7 +8,8 @@ Created on Fri Nov  6 21:40:33 2020
 import streamlit as st
 import numpy as np
 import pandas as pd
- 
+import base64
+import csv
 from sklearn.preprocessing import StandardScaler
 
 class Main:
@@ -49,6 +50,11 @@ def output_col(data):
     y = data.iloc[:,-1]
     return y
 
+@st.cache
+def load_test_data(test_file):
+    test_data = pd.read_csv(test_file)
+    test_data = test_data.iloc[:,:]
+    return test_data
 
 def missing_data(training_data):
      
@@ -117,18 +123,32 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 import pickle
 
+def download_model(model):
+    output_model = pickle.dumps(model)
+    b64 = base64.b64encode(output_model).decode()
+    href = f'<a href="data:file/output_model;base64,{b64}" download="myfile.pkl">Download Trained Model .pkl File</a>'
+    st.markdown(href, unsafe_allow_html=True)
+    
+def download_predicted_csv(regressor,test_data):
+    ypred =regressor.predict(test_data)
+    output = pd.DataFrame(ypred)
+    _csv = output.to_csv()
+    b64 = base64.b64encode(_csv.encode()).decode()  # some strings <-> bytes conversions necessary here
+    href = f'<a href="data:file/csv;base64,{b64}">Download Test Set Predictions CSV File</a> (right-click and save as &lt;some_name&gt;.csv)'
+    st.markdown(href, unsafe_allow_html=True)
+
 def models(model,training_data,y):
     
     if model == 'Linear Regression':
-        regressor = LinearRegression()
-        regressor.fit(training_data, y)
+        reg = LinearRegression()
+        regressor = reg.fit(training_data, y)
         return regressor
     elif model == 'Decision Trees':
-        regressor = DecisionTreeRegressor()
-        regressor.fit(training_data, y)
+        reg = DecisionTreeRegressor()
+        regressor= reg.fit(training_data, y)
     elif model == 'Random Forest':
-        regressor = RandomForestRegressor()
-        regressor.fit(training_data, y)
+        reg = RandomForestRegressor()
+        regressor= reg.fit(training_data, y)
     
 
 
@@ -155,10 +175,10 @@ class Regression:
     
         st.subheader('Encoding of the data')
         st.text('Convert categorical data into numerical data')
-        tech = st.radio("dsfdas",
-        ('Encode', 'Drama', 'Documentary'))
-        if tech == 'Encode':
-            
+#        tech = st.("dsfdas",
+#        ('Encode', 'Drama', 'Documentary'))
+#        if tech == 'Encode':
+        if st.checkbox('Encode') :   
             training_data = encoding(training_data)
             st.write(training_data)
              
@@ -169,22 +189,47 @@ class Regression:
             training_data = normalisation(training_data)
             st.write(training_data)
             
+            
+        st.subheader('Upload test data')
+        st.text('Note: The above parameters for preprocessing will be automatically\n'+
+                'used for the test data')
+        test_file = st.file_uploader('Upload')
+        if test_file is not None:
+            test_data = load_test_data(test_file)
+             
+            test_data = missing_data(test_data)
+            test_data = encoding(test_data)
+            test_data = normalisation(test_data)
+            st.write(test_data)
+            
         st.subheader('Choose one of the algorithms to train your data')
         algo = st.radio("",
                         ('Disabled','Linear Regression','Decision Trees','Random forest'))
         if algo == 'Linear Regression':
             regressor = models('Linear Regression',training_data,y)
             st.write('Model Trained Successfully')
-            if st.button('Download model(pickle)'):
-                pickle.dump(regressor, open('model.sav', 'wb'))
+            download_model(regressor)
+            download_predicted_csv(regressor,test_data)
+#            if st.button('Download model(pickle)'):
+#                pickle.dump(regressor, open('model.sav', 'wb'))
                         
         if algo == 'Decision Trees':
             regressor = models('Decision Trees',training_data,y)
             st.write('Model Trained Successfully')
+            download_model(regressor)
         if algo == 'Random forest':
             regressor = models('Random forest',training_data,y)
             st.write('Model Trained Successfully')
+            download_model(regressor)
         
+        
+        
+            
+        
+        
+        
+            
+            
         
         
 class Classfication:
