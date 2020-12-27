@@ -1,4 +1,4 @@
 # Genie.ml
 Genie is a webapp where you can upload datasets and create prediction files by choosing different algorithms 
 
-[![Alt text for your video](https://github.com/aniketwattamwar/Genie.ml/blob/main/Genie.png)] 
+![Genie](https://user-images.githubusercontent.com/34825918/103168078-41027700-4856-11eb-927e-34387c75cc57.png)
