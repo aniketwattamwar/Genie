@@ -11,6 +11,10 @@ import pandas as pd
 import base64
 import csv
 from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LinearRegression
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
+import pickle
 
 class Main:
     
@@ -33,7 +37,7 @@ class Main:
             
         st.title('Genie - A webapp to download models & predictions')
         st.header('You can upload datasets and choose your algorithms and obtain a model and a predicted file in minutes')
-    
+        st.image('Genie.png',use_column_width=True)
 
 
 @st.cache
@@ -118,10 +122,7 @@ def normalisation(training_data):
 #    training_data = encoding(training_data)
 #    st.write(training_data)
 
-from sklearn.linear_model import LinearRegression
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.ensemble import RandomForestRegressor
-import pickle
+
 
 def download_model(model):
     output_model = pickle.dumps(model)
@@ -137,21 +138,19 @@ def download_predicted_csv(regressor,test_data):
     href = f'<a href="data:file/csv;base64,{b64}">Download Test Set Predictions CSV File</a> (right-click and save as &lt;some_name&gt;.csv)'
     st.markdown(href, unsafe_allow_html=True)
 
-def models(model,training_data,y):
+#def models(model,training_data,y):
+#    
+#    if model == 'Linear Regression':
+#        reg = LinearRegression()
+#        regressor = reg.fit(training_data, y)
+#        return regressor
+#    elif model == 'Decision Trees':
+#        reg = DecisionTreeRegressor()
+#        regressor= reg.fit(training_data, y)
+#    elif model == 'Random Forest':
+#        reg = RandomForestRegressor()
+#        regressor= reg.fit(training_data, y)
     
-    if model == 'Linear Regression':
-        reg = LinearRegression()
-        regressor = reg.fit(training_data, y)
-        return regressor
-    elif model == 'Decision Trees':
-        reg = DecisionTreeRegressor()
-        regressor= reg.fit(training_data, y)
-    elif model == 'Random Forest':
-        reg = RandomForestRegressor()
-        regressor= reg.fit(training_data, y)
-    
-
-
 
 class Regression:
     
@@ -199,42 +198,41 @@ class Regression:
              
             test_data = missing_data(test_data)
             test_data = encoding(test_data)
-            test_data = normalisation(test_data)
+#            test_data = normalisation(test_data)
             st.write(test_data)
             
         st.subheader('Choose one of the algorithms to train your data')
         algo = st.radio("",
                         ('Disabled','Linear Regression','Decision Trees','Random forest'))
         if algo == 'Linear Regression':
-            regressor = models('Linear Regression',training_data,y)
+            reg = LinearRegression()
+            regressor = reg.fit(training_data, y)
             st.write('Model Trained Successfully')
             download_model(regressor)
+            ypred =regressor.predict(test_data)
+            st.write(ypred)
             download_predicted_csv(regressor,test_data)
-#            if st.button('Download model(pickle)'):
-#                pickle.dump(regressor, open('model.sav', 'wb'))
-                        
+          
         if algo == 'Decision Trees':
-            regressor = models('Decision Trees',training_data,y)
+            reg = DecisionTreeRegressor()
+            regressor = reg.fit(training_data, y)
             st.write('Model Trained Successfully')
+            ypred =regressor.predict(test_data)
+            st.write(ypred)
             download_model(regressor)
         if algo == 'Random forest':
-            regressor = models('Random forest',training_data,y)
+#            regressor = models('Random forest',training_data,y)
+            reg = RandomForestRegressor()
+            regressor = reg.fit(training_data, y)
             st.write('Model Trained Successfully')
+            ypred =regressor.predict(test_data)
+            st.write(ypred)
             download_model(regressor)
         
-        
-        
-            
-        
-        
-        
-            
-            
-        
-        
+
 class Classfication:
     def __init__(self):
-        file = st.file_uploader('Upload Dataset')
+        st.subheader('This section is under development')
 
 
 
