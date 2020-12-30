@@ -4,7 +4,7 @@ matplotlib
 sklearn
 seaborn
 streamlit==0.60.0
-csv
+pickle5==0.0.10
 opencv-python-headless
 
 
