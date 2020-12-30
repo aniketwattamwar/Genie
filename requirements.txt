@@ -4,6 +4,8 @@ matplotlib
 sklearn
 seaborn
 streamlit==0.60.0
+base64
+csv
 opencv-python-headless
 
 
