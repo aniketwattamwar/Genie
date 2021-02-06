@@ -22,7 +22,7 @@ class Main:
     
         selected_box = st.sidebar.selectbox(
         'Choose one of the following',
-        ('Welcome','Regression', 'Classification')
+        ('Welcome','Regression', 'Classification', 'Natural Language Processing')
         )
         
         if selected_box == 'Welcome':
@@ -31,6 +31,8 @@ class Main:
             Regression()
         if selected_box == 'Classification':
            Classfication()
+        if selected_box == 'Natural Language Processing':
+           NLP()
 
 
     def welcome(self):
@@ -155,6 +157,11 @@ def download_predicted_csv(regressor,test_data):
 class Regression:
     
     def __init__(self):
+        st.subheader("Please read the instructions below")
+        st.text("1.) Choose all the options in the way they are given. Skipping anyone will throw an error")
+        st.text("2.) After uploading the dataset if you get parsing error, reupload the dataset.")
+        st.text("3.) The preprocessing options chosen for training data will be automatically used\n" + "for testing data as well")
+        st.text("4.) While downloading the csv file, make sure to rename it with .csv extension")
         file = st.file_uploader('Upload Dataset')
         if file is not None:
             data = load_data(file)
@@ -202,6 +209,7 @@ class Regression:
             st.write(test_data)
             
         st.subheader('Choose one of the algorithms to train your data')
+        st.text('You can also download the .pkl file and the prediction file post\nchoosing an algorithm')
         algo = st.radio("",
                         ('Disabled','Linear Regression','Decision Trees','Random forest'))
         if algo == 'Linear Regression':
@@ -234,6 +242,12 @@ class Classfication:
     def __init__(self):
         st.subheader('This section is under development')
 
+
+
+class NLP():
+    def __init__(self):
+        st.header("Coming Soon ..!")
+        
 
 
 if __name__ == "__main__":
