@@ -1,7 +1,7 @@
 numpy
 pandas
 matplotlib
-sklearn
+scikit-learn
 seaborn
 streamlit==0.60.0
 pickle5==0.0.10
