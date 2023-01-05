@@ -17,6 +17,8 @@ from sklearn.ensemble import RandomForestRegressor
 import pickle
 import data_processing
 import Regression
+import Classification
+import details
 class Main:
     
     def __init__(self):
@@ -29,11 +31,14 @@ class Main:
         if selected_box == 'Welcome':
             self.welcome() 
         if selected_box == 'Regression':
+            details.Details()
             Regression.Regression()
         if selected_box == 'Classification':
-           Classfication()
+            details.Details()
+            Classification.Classification()
         if selected_box == 'Natural Language Processing':
-           NLP()
+
+            NLP()
 
 
     def welcome(self):
@@ -237,12 +242,6 @@ def download_predicted_csv(regressor,test_data):
 #             st.write(ypred)
 #             download_model(regressor)
         
-
-class Classfication:
-    def __init__(self):
-        st.subheader('This section is under development')
-
-
 
 class NLP():
     def __init__(self):
