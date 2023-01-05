@@ -34,7 +34,7 @@ class Main:
             details.Details()
             Regression.Regression()
         if selected_box == 'Classification':
-            details.Details()
+            # details.Details()
             Classification.Classification()
         if selected_box == 'Natural Language Processing':
 
@@ -43,29 +43,31 @@ class Main:
 
     def welcome(self):
         
+        st.text("Choose which type of problem you would like to solve from the left side bar!")
         st.image('genie.jpg',use_column_width=True)
         st.title('Genie - A webapp to download models & predictions')
         st.header('You can upload datasets and choose your algorithms and obtain a model and a predicted file in minutes')
         
-@st.cache
-def load_data(file):
-    data = pd.read_csv(file)
+        
+# @st.cache
+# def load_data(file):
+#     data = pd.read_csv(file)
     
-    return data
+#     return data
      
-def train_data(data):
-    training_data = data.iloc[:,:-1]
-    return training_data   
+# def train_data(data):
+#     training_data = data.iloc[:,:-1]
+#     return training_data   
 
-def output_col(data):
-    y = data.iloc[:,-1]
-    return y
+# def output_col(data):
+#     y = data.iloc[:,-1]
+#     return y
 
-@st.cache
-def load_test_data(test_file):
-    test_data = pd.read_csv(test_file)
-    test_data = test_data.iloc[:,:]
-    return test_data
+# @st.cache
+# def load_test_data(test_file):
+#     test_data = pd.read_csv(test_file)
+#     test_data = test_data.iloc[:,:]
+#     return test_data
 
 # def missing_data(training_data):
 #     training_data = training_data.fillna(training_data.mean())

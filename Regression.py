@@ -28,15 +28,15 @@ class Regression:
     
     def __init__(self):
       
-        # file = st.file_uploader('Upload Dataset')
-        # if file is not None:
-        #     data = load_data.get_data(file)
-        #     st.write('Training Data')
-        #     training_data = load_data.train_data(data)
-        #     st.write(training_data)
-        #     st.write('Output Column')
-        #     y = load_data.output_col(data)
-        #     st.write(y)
+        file = st.file_uploader('Upload Dataset')
+        if file is not None:
+            data = load_data.get_data(file)
+            st.write('Training Data')
+            training_data = load_data.train_data(data)
+            st.write(training_data)
+            st.write('Output Column')
+            y = load_data.output_col(data)
+            st.write(y)
             
         st.subheader('Imputation')
         st.text('Fill the missing data using one of the following options')
