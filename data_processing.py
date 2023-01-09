@@ -8,6 +8,7 @@ import pickle
 import numpy as np
 import pandas as pd
 import base64
+import streamlit as st
 
 class Processing:
 
@@ -15,10 +16,9 @@ class Processing:
         
     #    for i in len(training_data): 
     #        training_data['ID'] = training_data['ID'].replace()
-        training_data=training_data.drop(['Employee_Name','EmpID'],axis =1)
-    #    st.write(training_data.describe())
+        st.write(training_data.info())
     #    st.write(training_data.select_dtypes(include = 'object'))
-    #    data.select_dtypes(include = 'object')
+    #    data.select_dtypes(include = 'object')  
         
         arr = training_data.select_dtypes(include = 'object')
         cols = arr.columns
@@ -42,6 +42,11 @@ class Processing:
         return training_data
 
     def missing_data(training_data):
+        for col in training_data.columns:
+            count_unique = training_data[col].nunique()
+            if count_unique == training_data.shape[0]:
+                training_data=training_data.drop([col],axis =1)
+                # st.text(training_data)
         training_data = training_data.fillna(training_data.mean())
         return training_data 
      
