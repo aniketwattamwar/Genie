@@ -76,13 +76,14 @@ class Classification:
         algo = st.radio("",
                         ('Disabled','Logistic Regression','Random Forest Classifier','XGBoost'))
 
-        if algo == "Logisitic Regression":
+        if algo == "Logistic Regression":
             lg = LogisticRegression()
             logit = lg.fit(training_data, y)
             st.write('Model Trained Successfully')
             download_model(logit)
-            ypred =logit.predict(test_data)
-            st.write(ypred)
-            download_predicted_csv(logit,test_data)
+            # ypred =logit.predict(test_data)
+            # st.write(ypred)
+            # download_predicted_csv(logit,test_data)
+            st.text("The csv prediction file download feature will come soon")
 
 
