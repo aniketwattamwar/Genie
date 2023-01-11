@@ -34,7 +34,7 @@ class Main:
             details.Details()
             Regression.Regression()
         if selected_box == 'Classification':
-            # details.Details()
+            details.Details()
             Classification.Classification()
         if selected_box == 'Natural Language Processing':
 

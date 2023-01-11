@@ -5,23 +5,39 @@ import pandas as pd
 import base64
 import pickle
 
+from sklearn.linear_model import LogisticRegression
+
+def download_model(model):
+    output_model = pickle.dumps(model)
+    b64 = base64.b64encode(output_model).decode()
+    href = f'<a href="data:file/output_model;base64,{b64}" download="myfile.pkl">Download Trained Model .pkl File</a>'
+    st.markdown(href, unsafe_allow_html=True)
+    
+def download_predicted_csv(regressor,test_data):
+    ypred =regressor.predict(test_data)
+    output = pd.DataFrame(ypred)
+    _csv = output.to_csv()
+    b64 = base64.b64encode(_csv.encode()).decode()  # some strings <-> bytes conversions necessary here
+    href = f'<a href="data:file/csv;base64,{b64}">Download Test Set Predictions CSV File</a> (right-click and save as &lt;some_name&gt;.csv)'
+    st.markdown(href, unsafe_allow_html=True)
+
 
 class Classification:
     # st.text("Testing")
 
     def __init__(self):
        
-        # file = st.file_uploader('Upload Dataset')
-        # if file is not None:
-        #     data = load_data.get_data(file)
-        #     st.write('Training Data')
-        #     training_data = load_data.train_data(data)
-        #     st.write(training_data)
-        #     st.write('Output Column')
-        #     y = load_data.output_col(data)
-        #     st.write(y)
+        file = st.file_uploader('Upload Dataset')
+        if file is not None:
+            data = load_data.get_data(file)
+            st.write('Training Data')
+            training_data = load_data.train_data(data)
+            st.write(training_data)
+            st.write('Output Column')
+            y = load_data.output_col(data)
+            st.write(y)
             
-        st.subheader('Imputation')
+        st.subheader('Imputation') 
         st.text('Fill the missing data using one of the following options')
         if st.checkbox('Mean'):
             training_data = data_processing.Processing.missing_data(training_data)
@@ -54,5 +70,19 @@ class Classification:
             test_data = data_processing.Processing.normalisation(test_data)
 #            test_data = normalisation(test_data)
             st.write(test_data)
+
+        st.subheader('Choose one of the algorithms to train your data')
+        st.text('You can also download the .pkl file and the prediction file post\nchoosing an algorithm')
+        algo = st.radio("",
+                        ('Disabled','Logistic Regression','Random Forest Classifier','XGBoost'))
+
+        if algo == "Logisitic Regression":
+            lg = LogisticRegression()
+            logit = lg.fit(training_data, y)
+            st.write('Model Trained Successfully')
+            download_model(logit)
+            ypred =logit.predict(test_data)
+            st.write(ypred)
+            download_predicted_csv(logit,test_data)
 
 
