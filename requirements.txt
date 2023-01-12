@@ -6,6 +6,6 @@ seaborn
 streamlit==1.16.0
 pickle5==0.0.10
 opencv-python-headless
-
+xgboost==1.7.3
 
 
