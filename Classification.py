@@ -6,6 +6,7 @@ import base64
 import pickle
 
 from sklearn.linear_model import LogisticRegression
+from xgboost import XGBClassifier
 
 def download_model(model):
     output_model = pickle.dumps(model)
@@ -34,7 +35,7 @@ class Classification:
             training_data = load_data.train_data(data)
             st.write(training_data)
             st.write('Output Column')
-            y = load_data.output_col(data)
+            y = load_data.output_col_classification(data)
             st.write(y)
             
         st.subheader('Imputation') 
@@ -50,7 +51,6 @@ class Classification:
             training_data = data_processing.Processing.encoding(training_data)
             st.write(training_data)
              
-       
         st.subheader('Normalize the data')
         
         if st.checkbox('Normalize'):
@@ -64,26 +64,31 @@ class Classification:
         test_file = st.file_uploader('Upload')
         if test_file is not None:
             test_data = load_data.load_test_data(test_file)
-             
             test_data = data_processing.Processing.missing_data(test_data)
             test_data = data_processing.Processing.encoding(test_data)
             test_data = data_processing.Processing.normalisation(test_data)
-#            test_data = normalisation(test_data)
             st.write(test_data)
 
         st.subheader('Choose one of the algorithms to train your data')
         st.text('You can also download the .pkl file and the prediction file post\nchoosing an algorithm')
         algo = st.radio("",
-                        ('Disabled','Logistic Regression','Random Forest Classifier','XGBoost'))
+                        ('Disabled','Logistic Regression','XGBoost'))
 
         if algo == "Logistic Regression":
             lg = LogisticRegression()
             logit = lg.fit(training_data, y)
             st.write('Model Trained Successfully')
             download_model(logit)
-            # ypred =logit.predict(test_data)
-            # st.write(ypred)
-            # download_predicted_csv(logit,test_data)
-            st.text("The csv prediction file download feature will come soon")
-
+            ypred =logit.predict(test_data)
+            st.write(ypred)
+            download_predicted_csv(logit,test_data)
+            
+        if algo == "XGBoost":
+            xgb = XGBClassifier(learning_rate = 0.01,n_estimators=1000)
+            xgb.fit(training_data, y)
+            ypred =xgb.predict(test_data)
+            print(ypred)
+            download_model(xgb)
+            st.write(ypred)
+            download_predicted_csv(xgb,test_data)
 
