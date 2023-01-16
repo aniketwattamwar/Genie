@@ -12,6 +12,15 @@ import streamlit as st
 
 class Processing:
 
+    def missing_data(training_data):
+        for col in training_data.columns:
+            count_unique = training_data[col].nunique()
+            if count_unique == training_data.shape[0]:
+                training_data=training_data.drop([col],axis =1)
+                # st.text(training_data)
+        training_data = training_data.fillna(training_data.mean())
+        return training_data 
+
     def encoding(training_data):
         
     #    for i in len(training_data): 
@@ -41,13 +50,6 @@ class Processing:
         training_data = sc_X.fit_transform(training_data)
         return training_data
 
-    def missing_data(training_data):
-        for col in training_data.columns:
-            count_unique = training_data[col].nunique()
-            if count_unique == training_data.shape[0]:
-                training_data=training_data.drop([col],axis =1)
-                # st.text(training_data)
-        training_data = training_data.fillna(training_data.mean())
-        return training_data 
+    
      
         

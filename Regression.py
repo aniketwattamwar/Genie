@@ -37,7 +37,10 @@ class Regression:
             st.write('Output Column')
             y = load_data.output_col(data)
             st.write(y)
-            
+            st.subheader("Nature of the output variable using histogram")
+            y.hist()
+            st.set_option('deprecation.showPyplotGlobalUse', False)
+            st.pyplot()
         st.subheader('Imputation')
         st.text('Fill the missing data using one of the following options')
         if st.checkbox('Mean'):
