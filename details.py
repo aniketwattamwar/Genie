@@ -9,6 +9,7 @@ class Details:
         st.text("2.) After uploading the dataset if you get parsing error, reupload the dataset.")
         st.text("3.) The preprocessing options chosen for training data will be automatically used\n" + "for testing data as well")
         st.text("4.) While downloading the csv file, make sure to rename it with .csv extension")
+        st.text("5.) The output column should be the last column in the dataset file which you are uploading.")
         
         
 

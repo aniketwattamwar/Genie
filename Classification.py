@@ -4,7 +4,7 @@ import load_data
 import pandas as pd
 import base64
 import pickle
-
+import seaborn as sns
 from sklearn.linear_model import LogisticRegression
 from xgboost import XGBClassifier
 

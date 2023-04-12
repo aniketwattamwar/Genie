@@ -3,6 +3,7 @@ import data_processing
 import load_data
 import pandas as pd
 import base64
+import seaborn as sns
 import pickle
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
@@ -41,6 +42,7 @@ class Regression:
             y.hist()
             st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
+            
         st.subheader('Imputation')
         st.text('Fill the missing data using one of the following options')
         if st.checkbox('Mean'):
