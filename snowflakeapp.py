@@ -2,7 +2,6 @@
 
 import streamlit as st
 import snowflake.connector as snow
-from sqlalchemy import create_engine
 
 from snowflake.connector.pandas_tools import write_pandas, pd_writer
 import pickle
