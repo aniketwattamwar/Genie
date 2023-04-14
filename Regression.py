@@ -32,6 +32,7 @@ class Regression:
         file = st.file_uploader('Upload Dataset')
         if file is not None:
             data = load_data.get_data(file)
+            st.text("Data Uploaded to snowflake")
             st.write('Training Data')
             training_data = load_data.train_data(data)
             st.write(training_data)
@@ -72,10 +73,13 @@ class Regression:
                 'used for the test data')
         test_file = st.file_uploader('Upload')
         if test_file is not None:
-            test_data = load_data.load_test_data(test_file)
-             
+            test_data = load_data.get_data(test_file)
+            test_data = test_data.iloc[:,:]
+            st.write(test_data)
             test_data = data_processing.Processing.missing_data(test_data)
+            st.write(test_data)
             test_data = data_processing.Processing.encoding(test_data)
+            st.write(test_data)
             test_data = data_processing.Processing.normalisation(test_data)
 #            test_data = normalisation(test_data)
             st.write(test_data)

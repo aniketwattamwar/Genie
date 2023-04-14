@@ -14,7 +14,6 @@ import data_processing
 import Regression
 import Classification
 import details
-import snowflakeapp
 class Main:
     
     def __init__(self):
