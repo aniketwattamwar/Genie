@@ -75,13 +75,9 @@ class Regression:
         if test_file is not None:
             test_data = load_data.get_data(test_file)
             test_data = test_data.iloc[:,:]
-            st.write(test_data)
             test_data = data_processing.Processing.missing_data(test_data)
-            st.write(test_data)
             test_data = data_processing.Processing.encoding(test_data)
-            st.write(test_data)
             test_data = data_processing.Processing.normalisation(test_data)
-#            test_data = normalisation(test_data)
             st.write(test_data)
             
         st.subheader('Choose one of the algorithms to train your data')

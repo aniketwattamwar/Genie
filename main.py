@@ -42,7 +42,7 @@ class Main:
         st.image('genie.jpg',use_column_width=True)
         st.title('Genie - A webapp to download models & predictions')
         st.header('You can upload datasets and choose your algorithms and obtain a model and a predicted file in minutes')
-        
+        st.text("The app uses snowflake database to store and retrieve the data uploaded by the user.\n It also stores the transformed data after the data preprocessing.")
  
 
 def download_model(model):
