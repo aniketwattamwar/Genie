@@ -2,3 +2,5 @@
 model.sav
 new_test.csv
 new_train.csv
+.streamlit/secrets.toml
+listlibraries.txt
