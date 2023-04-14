@@ -19,7 +19,7 @@ def get_query(query):
         return cur.fetch_pandas_all()
 
 
-@st.cache_data
+@st.experimental_memo
 def get_data(file):
     data = pd.read_csv(file)
     
