@@ -86,7 +86,7 @@ def output_col_classification(data):
     
     return y
 
-@st.cache_data
+@st.experimental_memo
 def load_test_data(test_file):
     test_data = pd.read_csv(test_file)
     test_data = test_data.iloc[:,:]
