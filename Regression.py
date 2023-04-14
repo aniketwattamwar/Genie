@@ -80,6 +80,7 @@ class Regression:
             test_data = data_processing.Processing.normalisation(test_data)
             st.write(test_data)
             
+            
         st.subheader('Choose one of the algorithms to train your data')
         st.text('You can also download the .pkl file and the prediction file post\nchoosing an algorithm')
         algo = st.radio("",
