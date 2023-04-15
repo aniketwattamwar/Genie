@@ -97,9 +97,9 @@ def load_test_data(test_file):
 def put_out_data(ypred):
     schema = 'PUBLIC'
     database = 'RDATA'
-    qu = "CREATE DATABASE IF NOT EXISTS RDATA"
+    # qu = "CREATE DATABASE IF NOT EXISTS RDATA"
     out = "RESULT"
-    conn.cursor().execute(qu)
+    # conn.cursor().execute(qu)
     create_tbl_statement = "CREATE OR REPLACE TABLE " + schema + "." + out + " ( " + ypred.columns[0] + " float" + ')'
     
     q = "USE DATABASE RDATA"
