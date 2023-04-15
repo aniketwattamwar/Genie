@@ -92,6 +92,8 @@ class Regression:
             download_model(regressor)
             ypred =regressor.predict(test_data)
             st.write(ypred)
+            ypred_pd = pd.DataFrame(ypred,columns=['OUTPUT'])
+            load_data.put_out_data(ypred_pd)
             download_predicted_csv(regressor,test_data)
           
         if algo == 'Decision Trees':
@@ -100,6 +102,8 @@ class Regression:
             st.write('Model Trained Successfully')
             ypred =regressor.predict(test_data)
             st.write(ypred)
+            ypred_pd = pd.DataFrame(ypred,columns=['OUTPUT'])
+            load_data.put_out_data(ypred_pd)
             download_model(regressor)
         if algo == 'Random forest':
 #            regressor = models('Random forest',training_data,y)
@@ -108,5 +112,7 @@ class Regression:
             st.write('Model Trained Successfully')
             ypred =regressor.predict(test_data)
             st.write(ypred)
+            ypred_pd = pd.DataFrame(ypred,columns=['OUTPUT'])
+            load_data.put_out_data(ypred_pd)
             download_model(regressor)
         

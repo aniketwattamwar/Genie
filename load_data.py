@@ -92,3 +92,22 @@ def load_test_data(test_file):
     test_data = test_data.iloc[:,:]
     return test_data
 
+
+
+def put_out_data(ypred):
+    schema = 'PUBLIC'
+    database = 'RDATA'
+    qu = "CREATE DATABASE IF NOT EXISTS RDATA"
+    out = "RESULT"
+    conn.cursor().execute(qu)
+    create_tbl_statement = "CREATE OR REPLACE TABLE " + schema + "." + out + " ( " + ypred.columns[0] + " float" + ')'
+    
+    q = "USE DATABASE RDATA"
+    conn.cursor().execute(q)
+    print(create_tbl_statement)
+    conn.cursor().execute(create_tbl_statement)
+
+    write_pandas(conn, ypred, out)
+    st.text("Output uploaded to Snowflake DB RDATA")
+    
+    
