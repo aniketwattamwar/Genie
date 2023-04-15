@@ -18,6 +18,10 @@ def get_query(query):
         cur.execute(query)
         return cur.fetch_pandas_all()
 
+schema = 'PUBLIC'
+database = 'RDATA'
+qu = "CREATE DATABASE IF NOT EXISTS RDATA"
+conn.cursor().execute(qu)
 
 @st.experimental_memo
 def get_data(file):
@@ -25,10 +29,7 @@ def get_data(file):
     
     ##Create empty table
     table_name = (file.name).split(".")[0].upper()
-    schema = 'PUBLIC'
-    database = 'RDATA'
-    qu = "CREATE DATABASE IF NOT EXISTS RDATA"
-    conn.cursor().execute(qu)
+    
     create_tbl_statement = "CREATE OR REPLACE TABLE " + schema + "." + table_name + " ( "
     q = "USE DATABASE RDATA"
     # Loop through each column finding the datatype and adding it to the statement
